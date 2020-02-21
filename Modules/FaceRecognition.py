@@ -1,7 +1,8 @@
 import face_recognition
 import cv2
 import numpy as np
-from gaze_tracking import GazeTracking
+from .gaze_tracking import GazeTracking
+import os
 
 class Recognition:
 
@@ -49,8 +50,8 @@ class Recognition:
                     break
     
     def FaceRecognition(self):
-       
-        userImagePath="./users/"
+        prevPath = os.path.abspath(os.getcwd())
+        userImagePath=prevPath+"/Panel/user/images/"
 
         # Load a second sample picture and learn how to recognize it.
         mustafa_image = face_recognition.load_image_file(userImagePath+"mustafa.jpg")

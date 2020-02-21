@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Multiple Auth Sys</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <script type="text/javascript" src="/eel.js"></script>
+
+</head>
+
+<body class="hold-transition login-page">
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="javascript:void(0)"><b>MULTIPLE</b><hr>AUTHENTICATION SYSTEM</a>
+        </div>
+        <!-- /.login-logo -->
+        <div class="card">
+            <div class="card-body login-card-body">
+                <div class="social-auth-links text-center mb-3">
+                    <button onclick="getUser()" class="btn btn-block btn-primary">
+                        <i class="fas fa-grin-tongue mr-1 fa-2x"></i> <span style="font-size: 1.8em;">Yüz Tanımayla Giriş</span>
+                    </button>
+                    <button class="btn btn-block btn-danger">
+                        <i class="fas fa-id-card mr-1 fa-2x"></i> <span style="font-size: 1.8em;">Kartla Giriş</span>
+                    </button>
+                    <button class="btn btn-block btn-warning">
+                      <i class="fas fa-fingerprint fa-2x"></i> <span style="font-size: 1.8em;">Parmak İziyle Giriş</span>
+                  </button>
+                </div>
+
+            </div>
+            <!-- /.login-card-body -->
+        </div>
+    </div>
+    <!-- /.login-box -->
+
+    <!-- jQuery -->
+    <script src="../plugins/jquery/jquery.min.js"></script>
+
+
+    <script type="text/javascript">
+        async function getUser() {
+            let user = await eel.faceRecognition()();
+            alert(user);
+        }
+    </script>
+
+</body>
+
+</html>
