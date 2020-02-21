@@ -7,6 +7,7 @@ class Recognition:
 
     def __init__(self):
         self.video_capture = cv2.VideoCapture(0)
+        self.blinkDetectNum=10
 
     def eyeTrack(self):
 
@@ -42,11 +43,8 @@ class Recognition:
                 cv2.imshow('Video', frame)
                 print("Goz Kırpma: "+str(blinkCount))
 
-                if blinkCount>=3:
+                if blinkCount>=self.blinkDetectNum:
                     return 1
-                
-                
-                
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
     
@@ -123,7 +121,7 @@ class Recognition:
                 right *= 4
                 bottom *= 4
                 left *= 4
-                
+
                 # Release handle to the webcam
                 self.video_capture.release()
                 cv2.destroyAllWindows()

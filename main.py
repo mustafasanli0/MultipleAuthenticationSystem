@@ -1,7 +1,9 @@
 from FaceRecognition import Recognition
 import gaze_tracking
 import eel
+from MongoDBConnection import db
 eel.init('Panel')
+
 
 @eel.expose
 def faceRecognition():
