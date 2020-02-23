@@ -16,21 +16,28 @@
     <link rel="stylesheet" href="../dist/css/adminlte.min.css">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
+    <script type="text/javascript" src="/eel.js"></script>
+
 </head>
 
 <body class="hold-transition register-page">
     <div class="register-box">
         <div class="register-logo">
-            <a href="javascript:void(0)"><b>Multiple Authentication</b><hr> Admin Login</a>
+            <a href="javascript:void(0)"><b>Multiple Authentication</b>
+                <hr> Admin Login</a>
         </div>
+
+        <div id="auth_error"></div>
+
 
         <div class="card">
             <div class="card-body register-card-body">
 
-                <form action="../../index.html" method="post">
+                <form>
 
                     <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Username">
+                        <input id="username" type="text" class="form-control" placeholder="Username">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-user"></span>
@@ -38,7 +45,7 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Password">
+                        <input id="password" type="password" class="form-control" placeholder="Password">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -46,8 +53,8 @@
                         </div>
                     </div>
 
-                    <button href="#" class="btn btn-block btn-primary">
-                      Login
+                    <button type="button" onclick="login()" class="btn btn-block btn-primary">
+                        Login
                     </button>
 
 
@@ -66,6 +73,28 @@
     <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../dist/js/adminlte.min.js"></script>
+
+
+    <script type="text/javascript">
+        async function login() {
+            const username = $('#username').val();
+            const password = $('#password').val();
+
+            const response = await eel.login(username, password)();
+
+            if (response == 'error')
+                $('#auth_error').html(' <div class="alert alert-danger">Authentication Error Please Try Again.</div>').fadeIn(1000).fadeOut(3000);
+
+            else {
+                console.log(response);
+                document.cookie = "JWT=" + response + "; expires= Thu, 21 Aug 2030 20:00:00 UTC";
+                eel.showDashboard();
+                window.close();
+
+            }
+        }
+    </script>
 </body>
+
 
 </html>
