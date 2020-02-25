@@ -1,0 +1,195 @@
+<div class="content-wrapper">
+
+    <!-- Main content -->
+    <section class="content text-center">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <h4>Add New User</h4>
+            </div>
+            <!-- /.container-fluid -->
+        </section>
+
+        <form method="GET" class="steps" accept-charset="UTF-8" enctype="multipart/form-data" novalidate="">
+            <ul id="progressbar">
+                <li class="active">Set a username</li>
+                <li>User Information</li>
+                <li>Photo</li>
+                <li>Card</li>
+                <li>Finger Print</li>
+                <li>Authorization</li>
+
+
+            </ul>
+
+
+
+            <!-- USER INFORMATION FIELD SET -->
+            <fieldset>
+                <h2 class="fs-title">User Name Information</h2>
+                <h3 class="fs-subtitle">Please Set a Username</h3>
+                <div class="hs_firstname field hs-form-field">
+
+                    <label for="firstname-99a6d115-5e68-4355-a7d0-529207feb0b3_2983">User Name? *</label>
+
+                    <input id="firstname-99a6d115-5e68-4355-a7d0-529207feb0b3_2983" name="username" required="required" type="text" value="" placeholder="" data-rule-required="true" data-msg-required="Required">
+                    <span class="error1" style="display: none;">
+                        <i class="error-log fa fa-exclamation-triangle"></i>
+                    </span>
+                </div>
+
+
+
+
+                <!-- End Total Number of Constituents in Your Database Field -->
+                <input type="button" data-page="1" name="next" class="next action-button" value="Next" />
+            </fieldset>
+
+
+
+            <!-- User Information FIELD SET -->
+            <fieldset>
+                <h2 class="fs-title">User Information</h2>
+                <h3 class="fs-subtitle">Basic User Information ?</h3>
+                <!-- Begin Total Number of Donors in Year 1 Field -->
+                <div class="form-item webform-component webform-component-textfield hs_total_number_of_donors_in_year_1 field hs-form-field" id="webform-component-acquisition--amount-1">
+
+                    <label for="edit-submitted-acquisition-amount-1 total_number_of_donors_in_year_1-99a6d115-5e68-4355-a7d0-529207feb0b3_6344">Name? *</label>
+
+                    <input id="edit-submitted-acquisition-amount-1" class="form-text hs-input" name="total_number_of_donors_in_year_1" required="required" size="60" maxlength="128" type="text" value="" placeholder="" data-rule-required="true" data-msg-required="Required">
+                    <span class="error1" style="display: none;">
+                        <i class="error-log fa fa-exclamation-triangle"></i>
+                    </span>
+                </div>
+                <!-- End Total Number of Donors in Year 1 Field -->
+
+                <!-- Begin Total Number of Donors in Year 2 Field -->
+                <div class="form-item webform-component webform-component-textfield hs_total_number_of_donors_in_year_2 field hs-form-field" id="webform-component-acquisition--amount-2">
+
+                    <label for="edit-submitted-acquisition-amount-2 total_number_of_donors_in_year_2-99a6d115-5e68-4355-a7d0-529207feb0b3_6344">Surname? *</label>
+
+                    <input id="edit-submitted-acquisition-amount-2" class="form-text hs-input" name="total_number_of_donors_in_year_2" required="required" size="60" maxlength="128" type="text" value="" placeholder="" data-rule-required="true" data-msg-required="Required">
+                    <span class="error1" style="display: none;">
+                        <i class="error-log fa fa-exclamation-triangle"></i>
+                    </span>
+                </div>
+                <!-- End Total Number of Donors in Year 2 Field -->
+
+                <!-- Begin Calc of Total Number of Donors Fields -->
+                <!-- THIS FIELD IS NOT EDITABLE | GRAYED OUT -->
+                <div class="form-item webform-component webform-component-textfield webform-container-inline hs_total_donor_percent_change field hs-form-field">
+
+                    <label for="edit-submitted-acquisition-percent-change total_donor_percent_change-99a6d115-5e68-4355-a7d0-529207feb0b3_6344">Phone</label>
+                    <input id="edit-submitted-acquisition-percent-change" class="form-text hs-input" name="total_number_of_donors_in_year_2" required="required" size="60" maxlength="128" type="text" value="" placeholder="" data-rule-required="true" data-msg-required="Required">
+
+                </div>
+                <!-- End Calc of Total Number of Donors Fields -->
+                <input type="button" data-page="2" name="previous" class="previous action-button" value="Previous" />
+                <input type="button" data-page="2" name="next" class="next action-button" value="Next" />
+            </fieldset>
+
+
+
+            <!-- Cultivation FIELD SET -->
+            <fieldset>
+                <h2 class="fs-title">Photo</h2>
+                <h3 class="fs-subtitle">Take a User Photo?</h3>
+
+                <img id="take_photo" class="img-fluid" src="">
+                <br>
+                <i onclick="takePhoto()" class="fa fa-camera fa-4x text-info" aria-hidden="true"></i>
+                <!-- End Average Gift Size Perchent Change Field -->
+                <hr>
+                <input type="button" data-page="3" name="previous" class="previous action-button" value="Previous" />
+                <input type="button" data-page="3" name="next" class="next action-button" value="Next" />
+            </fieldset>
+
+
+
+            <!-- Cultivation2 FIELD SET -->
+            <fieldset>
+                <h2 class="fs-title">Card</h2>
+                <h3 class="fs-subtitle">Set a RFID CARD</h3>
+                <!-- Begin Total Giving In Year 1 Field -->
+                <div class="form-item webform-component webform-component-textfield" id="webform-component-cultivation--amount-3 hs_total_giving_in_year_1 field hs-form-field">
+
+                    <label for=" edit-submitted-cultivation-amount-3 total_giving_in_year_1-99a6d115-5e68-4355-a7d0-529207feb0b3_4902">Card ID? *</label>
+
+                    <input class="form-text hs-input" name="total_giving_in_year_1" required="required" size="60" maxlength="128" type="text" value="" placeholder="" data-rule-required="true" data-msg-required="Required">
+                    <span class="error1" style="display: none;">
+                        <i class="error-log fa fa-exclamation-triangle"></i>
+                    </span>
+                </div>
+                <!-- End Total Giving In Year 1 Field -->
+
+
+                <!-- End Average Gift Size Percent Change Field 2 -->
+                <input type="button" data-page="4" name="previous" class="previous action-button" value="Previous" />
+                <input type="button" data-page="4" name="next" class="next action-button" value="Next" />
+            </fieldset>
+
+
+
+            <!-- RETENTION FIELD SET -->
+            <fieldset>
+                <h2 class="fs-title">Finger Print</h2>
+                <h3 class="fs-subtitle">Set a Finger Print</h3>
+
+
+
+
+
+
+
+
+
+                <!-- End Final Calc -->
+                <input type="button" data-page="5" name="previous" class="previous action-button" value="Previous" />
+                <input type="button" data-page="5" name="next" class="next action-button" value="Next" />
+            </fieldset>
+
+
+            <fieldset>
+                <h2 class="fs-title">Authorization</h2>
+                <h3 class="fs-subtitle">Set a Authorization</h3>
+
+
+
+
+
+
+
+
+
+                <!-- End Final Calc -->
+                <input type="button" data-page="6" name="previous" class="previous action-button" value="Previous" />
+                <input id="submit" class="hs-button primary large action-button next" type="submit" value="Submit">
+            </fieldset>
+
+            <fieldset>
+                <h2 class="fs-title">It's on the way!</h2>
+                <h3 class="fs-subtitle">Thank you for trying out our marketing grader, please go check your email for your fundraising report card and some helpful tips to improve it!</h3>
+            </fieldset>
+            <script src="../dist/js/user-register.js"></script>
+
+            <script type="text/javascript">
+                const takePhoto = async() => {
+                    const userId = Date.now().toString()
+                    const photoName = await eel.setPhoto(userId)()
+                    $('#take_photo').attr('src', '../user/images/' + photoName)
+
+
+                }
+            </script>
+
+
+
+
+</div>
+<!-- /.card -->
+
+</section>
+<!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+<link rel="stylesheet" href="../dist/css/user-register.css">

@@ -1,4 +1,5 @@
 import sys,os,time
+import hashlib
 prevPath = os.path.abspath(os.getcwd())
 sys.path.insert(0,prevPath)
 import jwt
@@ -10,11 +11,13 @@ eel.init('Panel')
 
 
 @eel.expose
-def login(a,b):
-    user = 1
+def login(username_,password_):
+    password = hashlib.md5(password_.encode()).hexdigest()
+
+    admin = db.users.find_one({'user.username':str(username_),'user.password':str(password),'user.role':'1'},{'user.password':0,'_id':0})
     
-    if user is not None :
-        jwt_encode = jwt.encode({'user': {'username':'msanli14','name':'Mustafa','surname':'Sanlı','phone':'05457120478'}}, 'Hacklemigelkeklemi', algorithm='HS256')
+    if admin is not None :
+        jwt_encode = jwt.encode(admin, 'Hacklemigelkeklemi', algorithm='HS256')
         return str(jwt_encode)
     else:
         return "error"

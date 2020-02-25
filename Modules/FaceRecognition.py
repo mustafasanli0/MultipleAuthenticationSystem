@@ -7,7 +7,7 @@ import os
 class Recognition:
 
     def __init__(self):
-        self.video_capture = cv2.VideoCapture(0)
+        self.video_capture = cv2.VideoCapture(2)
         self.blinkDetectNum=10
 
     def eyeTrack(self):
