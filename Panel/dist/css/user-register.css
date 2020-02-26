@@ -480,10 +480,6 @@ body {
 
 /* Info */
 
-#progressbar li {
-    width: 16% !important;
-}
-
 .info {
     width: 300px;
     margin: 35px auto;

@@ -10,13 +10,12 @@
             <!-- /.container-fluid -->
         </section>
 
-        <form method="GET" class="steps" accept-charset="UTF-8" enctype="multipart/form-data" novalidate="">
+        <form id="add_user_form" method="GET" class="steps" accept-charset="UTF-8" enctype="multipart/form-data" novalidate="">
             <ul id="progressbar">
                 <li class="active">Set a username</li>
                 <li>User Information</li>
                 <li>Photo</li>
-                <li>Card</li>
-                <li>Finger Print</li>
+                <li>Card & Finger Print</li>
                 <li>Authorization</li>
 
 
@@ -56,7 +55,7 @@
 
                     <label for="edit-submitted-acquisition-amount-1 total_number_of_donors_in_year_1-99a6d115-5e68-4355-a7d0-529207feb0b3_6344">Name? *</label>
 
-                    <input id="edit-submitted-acquisition-amount-1" class="form-text hs-input" name="total_number_of_donors_in_year_1" required="required" size="60" maxlength="128" type="text" value="" placeholder="" data-rule-required="true" data-msg-required="Required">
+                    <input id="edit-submitted-acquisition-amount-1" class="form-text hs-input" name="name" required="required" size="60" maxlength="128" type="text" value="" placeholder="" data-rule-required="true" data-msg-required="Required">
                     <span class="error1" style="display: none;">
                         <i class="error-log fa fa-exclamation-triangle"></i>
                     </span>
@@ -68,7 +67,7 @@
 
                     <label for="edit-submitted-acquisition-amount-2 total_number_of_donors_in_year_2-99a6d115-5e68-4355-a7d0-529207feb0b3_6344">Surname? *</label>
 
-                    <input id="edit-submitted-acquisition-amount-2" class="form-text hs-input" name="total_number_of_donors_in_year_2" required="required" size="60" maxlength="128" type="text" value="" placeholder="" data-rule-required="true" data-msg-required="Required">
+                    <input id="edit-submitted-acquisition-amount-2" class="form-text hs-input" name="surname" required="required" size="60" maxlength="128" type="text" value="" placeholder="" data-rule-required="true" data-msg-required="Required">
                     <span class="error1" style="display: none;">
                         <i class="error-log fa fa-exclamation-triangle"></i>
                     </span>
@@ -80,7 +79,7 @@
                 <div class="form-item webform-component webform-component-textfield webform-container-inline hs_total_donor_percent_change field hs-form-field">
 
                     <label for="edit-submitted-acquisition-percent-change total_donor_percent_change-99a6d115-5e68-4355-a7d0-529207feb0b3_6344">Phone</label>
-                    <input id="edit-submitted-acquisition-percent-change" class="form-text hs-input" name="total_number_of_donors_in_year_2" required="required" size="60" maxlength="128" type="text" value="" placeholder="" data-rule-required="true" data-msg-required="Required">
+                    <input id="edit-submitted-acquisition-percent-change" class="form-text hs-input" name="phone" required="required" size="60" maxlength="128" type="text" value="" placeholder="" data-rule-required="true" data-msg-required="Required">
 
                 </div>
                 <!-- End Calc of Total Number of Donors Fields -->
@@ -98,10 +97,11 @@
                 <img id="take_photo" class="img-fluid" src="">
                 <br>
                 <i onclick="takePhoto()" class="fa fa-camera fa-4x text-info" aria-hidden="true"></i>
+
                 <!-- End Average Gift Size Perchent Change Field -->
                 <hr>
                 <input type="button" data-page="3" name="previous" class="previous action-button" value="Previous" />
-                <input type="button" data-page="3" name="next" class="next action-button" value="Next" />
+                <input id="set_photo_button" disabled type="button" data-page="3" name="next" class="next action-button" value="Next" />
             </fieldset>
 
 
@@ -113,40 +113,26 @@
                 <!-- Begin Total Giving In Year 1 Field -->
                 <div class="form-item webform-component webform-component-textfield" id="webform-component-cultivation--amount-3 hs_total_giving_in_year_1 field hs-form-field">
 
-                    <label for=" edit-submitted-cultivation-amount-3 total_giving_in_year_1-99a6d115-5e68-4355-a7d0-529207feb0b3_4902">Card ID? *</label>
-
-                    <input class="form-text hs-input" name="total_giving_in_year_1" required="required" size="60" maxlength="128" type="text" value="" placeholder="" data-rule-required="true" data-msg-required="Required">
+                    <label id="rfid_card" for=" edit-submitted-cultivation-amount-3 total_giving_in_year_1-99a6d115-5e68-4355-a7d0-529207feb0b3_4902">Please Read Card *</label>
                     <span class="error1" style="display: none;">
                         <i class="error-log fa fa-exclamation-triangle"></i>
                     </span>
                 </div>
                 <!-- End Total Giving In Year 1 Field -->
 
+                <h2 class="fs-title">Finger Print</h2>
+                <h3 class="fs-subtitle">Set a Finger Print</h3>
+                <div id="finger_print">Please Touch</div>
+
 
                 <!-- End Average Gift Size Percent Change Field 2 -->
                 <input type="button" data-page="4" name="previous" class="previous action-button" value="Previous" />
-                <input type="button" data-page="4" name="next" class="next action-button" value="Next" />
+                <input id="rfid_card_next" disabled type="button" data-page="4" name="next" class="next action-button" value="Next" />
             </fieldset>
 
 
 
-            <!-- RETENTION FIELD SET -->
-            <fieldset>
-                <h2 class="fs-title">Finger Print</h2>
-                <h3 class="fs-subtitle">Set a Finger Print</h3>
 
-
-
-
-
-
-
-
-
-                <!-- End Final Calc -->
-                <input type="button" data-page="5" name="previous" class="previous action-button" value="Previous" />
-                <input type="button" data-page="5" name="next" class="next action-button" value="Next" />
-            </fieldset>
 
 
             <fieldset>
@@ -173,12 +159,41 @@
             <script src="../dist/js/user-register.js"></script>
 
             <script type="text/javascript">
+                const userId = '1'
+
                 const takePhoto = async() => {
-                    const userId = Date.now().toString()
+
+
                     const photoName = await eel.setPhoto(userId)()
                     $('#take_photo').attr('src', '../user/images/' + photoName)
+                    $('#set_photo_button').prop('disabled', false)
 
 
+                    await eel.startSerialRead()()
+                    sendArduino()
+
+                }
+
+                const sendArduino = async() => {
+                    await eel.sendSerialData(userId)()
+
+
+                }
+                const userAddFormSerialize = () => {
+                    console.log($('#add_user_form').serializeArray())
+                }
+
+                eel.expose(cardSaved)
+
+                function cardSaved() {
+                    $('#rfid_card').text('SUCCESS')
+                    $('#rfid_card_next').prop('disabled', false)
+                }
+                eel.expose(fingerSaved)
+
+                function fingerSaved() {
+                    $('#finger_print').text('SUCCESS')
+                    $('#finger_print_button').prop('disabled', false)
                 }
             </script>
 
