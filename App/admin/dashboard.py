@@ -10,7 +10,7 @@ import serial
 from threading import Thread
 import eel
 eel.init('Panel')
-serial = serial.Serial('/dev/ttyACM0', 9600, timeout=.1)
+#serial = serial.Serial('/dev/ttyACM0', 9600, timeout=.1)
 
 
 
@@ -38,7 +38,9 @@ def arduinoSerialRead():
             if('success' in data):
                 eel.cardSaved()
             if('stored' in data):
-                eel.fingerSaved()
+                eel.setFingerMessage('saved')
+            if('Remove finger' in data):
+                eel.setFingerMessage('remove_and_press')
 
             
 

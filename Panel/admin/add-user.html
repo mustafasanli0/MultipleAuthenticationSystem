@@ -7,7 +7,10 @@
             <div class="container-fluid">
                 <h4>Add New User</h4>
             </div>
+
+
             <!-- /.container-fluid -->
+
         </section>
 
         <form id="add_user_form" method="GET" class="steps" accept-charset="UTF-8" enctype="multipart/form-data" novalidate="">
@@ -15,7 +18,8 @@
                 <li class="active">Set a username</li>
                 <li>User Information</li>
                 <li>Photo</li>
-                <li>Card & Finger Print</li>
+                <li>Card</li>
+                <li>Finger Print</li>
                 <li>Authorization</li>
 
 
@@ -108,21 +112,23 @@
 
             <!-- Cultivation2 FIELD SET -->
             <fieldset>
-                <h2 class="fs-title">Card</h2>
-                <h3 class="fs-subtitle">Set a RFID CARD</h3>
-                <!-- Begin Total Giving In Year 1 Field -->
-                <div class="form-item webform-component webform-component-textfield" id="webform-component-cultivation--amount-3 hs_total_giving_in_year_1 field hs-form-field">
+                <div class="col-md-12 col-sm-12 col-12 text-center mx-auto" style="text-align: center;/* margin: auto; */">
+                    <div class="card-div info-box bg-danger text-center" style="text-align: center;">
+                        <span class="info-box-icon"><i class="fa fa-credit-card"></i></span>
 
-                    <label id="rfid_card" for=" edit-submitted-cultivation-amount-3 total_giving_in_year_1-99a6d115-5e68-4355-a7d0-529207feb0b3_4902">Please Read Card *</label>
-                    <span class="error1" style="display: none;">
-                        <i class="error-log fa fa-exclamation-triangle"></i>
-                    </span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">RFID Card</span>
+                            <span class="info-box-number card-message">Please Read Your Card</span>
+
+                            <div class="progress">
+                                <div class="card-progress-bar-per" style="width: 0%"></div>
+                            </div>
+                            <span class="card-progress-description">Complete: 0%</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
                 </div>
-                <!-- End Total Giving In Year 1 Field -->
-
-                <h2 class="fs-title">Finger Print</h2>
-                <h3 class="fs-subtitle">Set a Finger Print</h3>
-                <div id="finger_print">Please Touch</div>
 
 
                 <!-- End Average Gift Size Percent Change Field 2 -->
@@ -132,24 +138,93 @@
 
 
 
-
-
-
+            <!-- RETENTION FIELD SET -->
             <fieldset>
-                <h2 class="fs-title">Authorization</h2>
-                <h3 class="fs-subtitle">Set a Authorization</h3>
+                <div class="col-md-12 col-sm-12 col-12 text-center mx-auto" style="text-align: center;/* margin: auto; */">
+                    <div class="finger-div info-box bg-danger text-center" style="text-align: center;">
+                        <span class="info-box-icon"><i class="far fa-thumbs-up"></i></span>
 
+                        <div class="info-box-content">
+                            <span class="info-box-text">FINGER PRINT</span>
+                            <span class="info-box-number finger-message">Please Press Finger</span>
 
-
-
+                            <div class="progress">
+                                <div class="finger-progress-bar-per" style="width: 0%"></div>
+                            </div>
+                            <span class="finger-progress-description">Complete: 0%</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
 
 
 
 
 
                 <!-- End Final Calc -->
+                <input type="button" data-page="5" name="previous" class="previous action-button" value="Previous" />
+                <input id="finger_print_button" type="button" data-page="5" name="next" class="next action-button" value="Next" />
+            </fieldset>
+
+
+            <fieldset>
+                <h2 class="fs-title">Authorization</h2>
+
+
+                <div class="card card-info">
+                    <div class="card-header">
+                        <h3 class="card-title">Authorization</h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- Minimal style -->
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <!-- checkbox -->
+                                <div class="form-group clearfix">
+
+                                    <div class="icheck-primary d-inline" style="float: left;">
+                                        <input type="checkbox" id="checkboxPrimary1" checked="">
+                                        <label for="checkboxPrimary1">Kütüphane</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <!-- radio -->
+                                <div class="form-group clearfix">
+
+                                    <div class="icheck-danger d-inline" style="float: right;">
+                                        <input type="checkbox" checked="" id="checkboxDanger2">
+                                        <label for="checkboxDanger2">Face</label>
+                                    </div>
+                                    <div class="icheck-danger d-inline" style="float: right;">
+                                        <input type="checkbox" checked="" id="checkboxDanger1">
+                                        <label for="checkboxDanger1" style="margin-right: 5px;">Card</label>
+                                    </div>
+                                    <div class="icheck-danger d-inline" style="float: right;">
+                                        <input type="checkbox" checked="" id="checkboxDanger3">
+                                        <label for="checkboxDanger3" style="margin-right: 5px;">Finger</label>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Minimal red style -->
+
+                        <!-- Minimal red style -->
+
+                    </div>
+                    <!-- /.card-body -->
+
+                </div>
+
+
+                <!-- End Final Calc -->
                 <input type="button" data-page="6" name="previous" class="previous action-button" value="Previous" />
-                <input id="submit" class="hs-button primary large action-button next" type="submit" value="Submit">
+                <input id="submit" class="hs-button primary large action-button next" type="button" value="Submit">
             </fieldset>
 
             <fieldset>
@@ -186,14 +261,35 @@
                 eel.expose(cardSaved)
 
                 function cardSaved() {
-                    $('#rfid_card').text('SUCCESS')
+                    $('.card-div').attr('class', 'card-div info-box bg-success text-center')
+                    $('.card-message').text('Rfid Card Successfully Saved')
+                    $('.card-progress-bar-per').css({
+                        'width': '100%',
+                        'background': 'white'
+                    })
+                    $('.card-progress-description').text('Complete : 100%')
                     $('#rfid_card_next').prop('disabled', false)
                 }
-                eel.expose(fingerSaved)
+                eel.expose(setFingerMessage)
 
-                function fingerSaved() {
-                    $('#finger_print').text('SUCCESS')
-                    $('#finger_print_button').prop('disabled', false)
+                function setFingerMessage(option) {
+                    if (option == 'saved') {
+                        $('.finger-div').attr('class', 'finger-div info-box bg-success text-center')
+                        $('.finger-message').text('Finger Successfully Saved')
+                        $('.finger-progress-bar-per').css({
+                            'width': '100%',
+                            'background': 'white'
+                        })
+                        $('.finger-progress-description').text('Complete : 100%')
+                        $('#finger_print_button').prop('disabled', false)
+                    } else if (option == 'remove_and_press') {
+                        $('.finger-progress-bar-per').css({
+                            'width': '50%',
+                            'background': 'white'
+                        })
+                        $('.finger-progress-description').text('Complete : 50%')
+                        $('.finger-message').text('Remove and Press Again')
+                    }
                 }
             </script>
 
@@ -208,3 +304,4 @@
 </div>
 <!-- /.content-wrapper -->
 <link rel="stylesheet" href="../dist/css/user-register.css">
+<link rel="stylesheet" href="../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
