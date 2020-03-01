@@ -154,8 +154,9 @@
     const jwtDecode = async() => {
         if (document.cookie) {
             const data = await eel.jwtDecode(document.cookie)();
+            console.log(data)
 
-            $('#username').text(data.user.name + " " + data.user.surname);
+            $('#username').text(data.name + " " + data.surname);
             $('.admin_panel').text('ADMIN PANEL')
             if (!user)
                 $('body').remove();

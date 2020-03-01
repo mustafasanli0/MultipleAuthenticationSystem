@@ -36,6 +36,7 @@
                     <label for="firstname-99a6d115-5e68-4355-a7d0-529207feb0b3_2983">User Name? *</label>
 
                     <input id="firstname-99a6d115-5e68-4355-a7d0-529207feb0b3_2983" name="username" required="required" type="text" value="" placeholder="" data-rule-required="true" data-msg-required="Required">
+                    <input style="display: none;" name="user_id">
                     <span class="error1" style="display: none;">
                         <i class="error-log fa fa-exclamation-triangle"></i>
                     </span>
@@ -99,6 +100,7 @@
                 <h3 class="fs-subtitle">Take a User Photo?</h3>
 
                 <img id="take_photo" class="img-fluid" src="">
+                <input style="display: none;" id="photo_name" name="photo_name">
                 <br>
                 <i onclick="takePhoto()" class="fa fa-camera fa-4x text-info" aria-hidden="true"></i>
 
@@ -176,45 +178,8 @@
                     <div class="card-header">
                         <h3 class="card-title">Authorization</h3>
                     </div>
-                    <div class="card-body">
-                        <!-- Minimal style -->
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <!-- checkbox -->
-                                <div class="form-group clearfix">
+                    <div id="entries" class="card-body">
 
-                                    <div class="icheck-primary d-inline" style="float: left;">
-                                        <input type="checkbox" id="checkboxPrimary1" checked="">
-                                        <label for="checkboxPrimary1">Kütüphane</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <!-- radio -->
-                                <div class="form-group clearfix">
-
-                                    <div class="icheck-danger d-inline" style="float: right;">
-                                        <input type="checkbox" checked="" id="checkboxDanger2">
-                                        <label for="checkboxDanger2">Face</label>
-                                    </div>
-                                    <div class="icheck-danger d-inline" style="float: right;">
-                                        <input type="checkbox" checked="" id="checkboxDanger1">
-                                        <label for="checkboxDanger1" style="margin-right: 5px;">Card</label>
-                                    </div>
-                                    <div class="icheck-danger d-inline" style="float: right;">
-                                        <input type="checkbox" checked="" id="checkboxDanger3">
-                                        <label for="checkboxDanger3" style="margin-right: 5px;">Finger</label>
-                                    </div>
-
-
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <!-- Minimal red style -->
-
-                        <!-- Minimal red style -->
 
                     </div>
                     <!-- /.card-body -->
@@ -224,38 +189,55 @@
 
                 <!-- End Final Calc -->
                 <input type="button" data-page="6" name="previous" class="previous action-button" value="Previous" />
-                <input id="submit" class="hs-button primary large action-button next" type="button" value="Submit">
+                <input onclick="userAddFormSerialize()" class="hs-button primary large action-button next" type="button" value="Submit">
             </fieldset>
 
             <fieldset>
-                <h2 class="fs-title">It's on the way!</h2>
-                <h3 class="fs-subtitle">Thank you for trying out our marketing grader, please go check your email for your fundraising report card and some helpful tips to improve it!</h3>
+                <h2 class="fs-title">Success!</h2>
+                <h3 class="fs-subtitle">User Successfully Registered!</h3>
             </fieldset>
             <script src="../dist/js/user-register.js"></script>
 
             <script type="text/javascript">
-                const userId = '1'
+                const getLastUserId = async() => {
+                    const user_id = await eel.getLastUserId()()
+                    $('input[name=user_id]').val(user_id)
+
+                }
+
+                getLastUserId()
 
                 const takePhoto = async() => {
+                    const userId = $('input[name=user_id]').val()
 
 
                     const photoName = await eel.setPhoto(userId)()
                     $('#take_photo').attr('src', '../user/images/' + photoName)
+                    $('#photo_name').val(photoName)
                     $('#set_photo_button').prop('disabled', false)
 
 
                     await eel.startSerialRead()()
                     sendArduino()
+                    getEntries()
 
                 }
-
                 const sendArduino = async() => {
+                    const userId = $('input[name=user_id]').val()
                     await eel.sendSerialData(userId)()
 
 
                 }
-                const userAddFormSerialize = () => {
-                    console.log($('#add_user_form').serializeArray())
+                const userAddFormSerialize = async() => {
+                    const userdata = {}
+
+                    $.each($('#add_user_form').serializeArray(), function(i, obj) {
+                        userdata[obj.name] = obj.value
+                    })
+
+                    const response = await eel.setUserForm(userdata)()
+
+
                 }
 
                 eel.expose(cardSaved)
@@ -290,6 +272,49 @@
                         $('.finger-progress-description').text('Complete : 50%')
                         $('.finger-message').text('Remove and Press Again')
                     }
+                }
+
+                const getEntries = async() => {
+                    const entries = await eel.getEntries()()
+                    console.log(entries)
+                    $.each(entries, (key, data) => {
+                        console.log(key)
+
+
+                        $('#entries').append(`<div class="row">
+                            <div class="col-sm-6">
+                                <!-- checkbox -->
+                                <div class="form-group clearfix">
+
+                                    <div class="icheck-primary d-inline" style="float: left;">
+                                        <input name="` + data._id + `" type="checkbox" id="a` + data._id + `">
+                                        <label for="a` + data._id + `">` + data.entry + `</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <!-- radio -->
+                                <div class="form-group clearfix">
+
+                                    <div class="icheck-danger d-inline" style="float: right;">
+                                        <input  name="` + data._id + `-face" type="checkbox" id="b` + data._id + `">
+                                        <label for="b` + data._id + `">Face</label>
+                                    </div>
+                                    <div class="icheck-danger d-inline" style="float: right;">
+                                        <input name="` + data._id + `-card" type="checkbox" id="c` + data._id + `">
+                                        <label for="c` + data._id + `" style="margin-right: 5px;">Card</label>
+                                    </div>
+                                    <div class="icheck-danger d-inline" style="float: right;">
+                                        <input name="` + data._id + `-finger" type="checkbox" id="d` + data._id + `">
+                                        <label for="d` + data._id + `" style="margin-right: 5px;">Finger</label>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>`)
+
+                    })
                 }
             </script>
 

@@ -14,7 +14,7 @@ eel.init('Panel')
 def login(username_,password_):
     password = hashlib.md5(password_.encode()).hexdigest()
 
-    admin = db.users.find_one({'user.username':str(username_),'user.password':str(password),'user.role':'1'},{'user.password':0,'_id':0})
+    admin = db.users.find_one({'username':str(username_),'password':str(password),'role':'1'},{'password':0,'_id':0})
     
     if admin is not None :
         jwt_encode = jwt.encode(admin, 'Hacklemigelkeklemi', algorithm='HS256')

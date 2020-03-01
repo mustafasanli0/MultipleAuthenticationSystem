@@ -39,7 +39,7 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);   // Create MFRC522 instance.
 
 MFRC522::MIFARE_Key key;
 int receiveData;
-/**
+/** 
    Initialize.
 */
 SoftwareSerial mySerial(6, 7);
