@@ -2,12 +2,13 @@ import face_recognition
 import cv2
 import numpy as np
 from .gaze_tracking import GazeTracking
-import os
+from App.MongoDBConnection import db
+import os, json
 
 class Recognition:
 
     def __init__(self):
-        self.video_capture = cv2.VideoCapture(2)
+        self.video_capture = cv2.VideoCapture(0)
         self.blinkDetectNum=10
 
     def eyeTrack(self):
@@ -48,27 +49,30 @@ class Recognition:
                     return 1
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
+    def getAllUsers(self):
+        return  db.users.find({},{'_id':0})
     
     def FaceRecognition(self):
         prevPath = os.path.abspath(os.getcwd())
         userImagePath=prevPath+"/Panel/user/images/"
 
-        # Load a second sample picture and learn how to recognize it.
-        mustafa_image = face_recognition.load_image_file(userImagePath+"mustafa.jpg")
-        mustafa_face_encoding = face_recognition.face_encodings(mustafa_image)[0]
+         # Create arrays of known face encodings and their names
+        known_face_encodings = []
+        known_face_names = []
 
-        batu_image = face_recognition.load_image_file(userImagePath+"batu.jpg")
-        batu_face_encoding = face_recognition.face_encodings(batu_image)[0]
+        users = list(self.getAllUsers())
+        for document in users:
+            if document['user_id']== '0':
+                continue
+            user_id = document['user_id']
+            photo = face_recognition.face_encodings(face_recognition.load_image_file(userImagePath+document['photo']))[0]
+            known_face_names.append(user_id)
+            known_face_encodings.append(photo)
 
-        # Create arrays of known face encodings and their names
-        known_face_encodings = [
-            mustafa_face_encoding,
-            batu_face_encoding
-        ]
-        known_face_names = [
-            "Mustafa",
-            "Batuhan"
-        ]
+       
+
+
+       
 
         # Initialize some variables
         face_locations = []

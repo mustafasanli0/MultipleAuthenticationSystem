@@ -13,7 +13,9 @@ eel.init('Panel')
 def faceRecognition():
     recognition = Recognition()
     if(recognition.eyeTrack()):
-        return recognition.FaceRecognition()
+        return list(db.users.find({'user_id' : str(recognition.FaceRecognition()) },{'_id' : 0}))
+        
+
 
 eel.start('user/login.html')
 
