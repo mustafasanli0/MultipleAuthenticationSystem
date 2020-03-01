@@ -166,7 +166,7 @@
 
                 <!-- End Final Calc -->
                 <input type="button" data-page="5" name="previous" class="previous action-button" value="Previous" />
-                <input id="finger_print_button" type="button" data-page="5" name="next" class="next action-button" value="Next" />
+                <input id="finger_print_button" disabled type="button" data-page="5" name="next" class="next action-button" value="Next" />
             </fieldset>
 
 
@@ -215,7 +215,6 @@
                     $('#take_photo').attr('src', '../user/images/' + photoName)
                     $('#photo_name').val(photoName)
                     $('#set_photo_button').prop('disabled', false)
-
 
                     await eel.startSerialRead()()
                     sendArduino()
@@ -278,7 +277,6 @@
                     const entries = await eel.getEntries()()
                     console.log(entries)
                     $.each(entries, (key, data) => {
-                        console.log(key)
 
 
                         $('#entries').append(`<div class="row">

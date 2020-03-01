@@ -474,7 +474,7 @@ uint8_t getFingerprintID() {
   }
 
   // found a match!
-  Serial.print("Found ID #"); Serial.print(finger.fingerID);
+  Serial.print("response-finger="); Serial.print(finger.fingerID);
   Serial.print(" with confidence of "); Serial.println(finger.confidence);
 
   return finger.fingerID;
@@ -492,8 +492,8 @@ int getFingerprintIDez() {
   if (p != FINGERPRINT_OK)  return -1;
 
   // found a match!
-  Serial.print("Found ID #"); Serial.print(finger.fingerID);
-  Serial.print(" with confidence of "); Serial.println(finger.confidence);
+  Serial.print("response-finger="); Serial.print(finger.fingerID);
+  //Serial.print(" with confidence of "); Serial.println(finger.confidence);
   return finger.fingerID;
 }
 void readCard() {
@@ -534,6 +534,6 @@ void readCard() {
 
   status = (MFRC522::StatusCode) mfrc522.MIFARE_Read(blockAddr, buffer, &size);
 
-  Serial.print(buffer[0]);
+  Serial.print("response-card="); Serial.print(buffer[0]);
 
 }

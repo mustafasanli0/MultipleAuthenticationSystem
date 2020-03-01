@@ -28,16 +28,7 @@
         <!-- /.login-logo -->
         <div class="card">
             <div class="card-body login-card-body">
-                <div class="social-auth-links text-center mb-3">
-                    <button onclick="getUser()" class="btn btn-block btn-primary">
-                        <i class="fas fa-grin-tongue mr-1 fa-2x"></i> <span style="font-size: 1.8em;">Yüz Tanımayla Giriş</span>
-                    </button>
-                    <button class="btn btn-block btn-danger">
-                        <i class="fas fa-id-card mr-1 fa-2x"></i> <span style="font-size: 1.8em;">Kartla Giriş</span>
-                    </button>
-                    <button class="btn btn-block btn-warning">
-                      <i class="fas fa-fingerprint fa-2x"></i> <span style="font-size: 1.8em;">Parmak İziyle Giriş</span>
-                  </button>
+                <div id="entries" class="social-auth-links text-center mb-3">
                 </div>
 
             </div>
@@ -51,10 +42,55 @@
 
 
     <script type="text/javascript">
+        async function recognition(entryId) {
+            const user = await eel.recognition(entryId)();
+            console.log(user)
+
+        }
         async function getUser() {
-            const user = await eel.faceRecognition()();
+            const user = await eel.getUser()();
             console.log(user)
         }
+
+        const BtnClass = (key) => {
+            switch (key % 6) {
+                case 0:
+                    return 'default'
+                case 1:
+                    return 'secondary'
+                case 2:
+                    return 'success'
+                case 3:
+                    return 'info'
+                case 4:
+                    return 'danger'
+                case 5:
+                    return 'warning'
+                case 6:
+                    return 'primary'
+            }
+        }
+
+
+
+
+
+        async function getEntries() {
+            const entries = await eel.getEntries()();
+            $.each(entries, (key, data) => {
+                $('#entries').append(` <button onclick="recognition('` + data._id + `')" class="btn btn-block btn-` + BtnClass(key) + `">
+                        <i class="fas fa-door-open mr-1 fa-2x"></i> <span style="font-size: 1.8em;">` + data.entry + `</span>
+                    </button>`)
+
+
+
+            })
+        }
+
+        $(document).ready(() => {
+            getEntries()
+            getUser()
+        })
     </script>
 
 </body>
