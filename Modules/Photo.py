@@ -4,7 +4,7 @@ userImagePath = os.path.abspath(os.getcwd())+'/Panel/user/images/'
 
 def takePhoto(username):
 
-    cam = cv2.VideoCapture(0)
+    cam = cv2.VideoCapture(2)
     while True:
         ret_val, img = cam.read()
         cv2.imshow('Take A Photo', img)

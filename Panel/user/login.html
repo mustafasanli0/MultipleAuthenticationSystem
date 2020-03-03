@@ -23,7 +23,8 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="javascript:void(0)"><b>MULTIPLE</b><hr>AUTHENTICATION SYSTEM</a>
+            <a href="javascript:void(0)"><b>MULTIPLE</b>
+                <hr>AUTHENTICATION SYSTEM</a>
         </div>
         <!-- /.login-logo -->
         <div class="card">
@@ -47,10 +48,6 @@
             console.log(user)
 
         }
-        async function getUser() {
-            const user = await eel.getUser()();
-            console.log(user)
-        }
 
         const BtnClass = (key) => {
             switch (key % 6) {
@@ -70,8 +67,6 @@
                     return 'primary'
             }
         }
-
-
 
 
 
