@@ -2,92 +2,131 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Multiple Auth Sys</title>
     <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css" />
     <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="../plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/icheck-bootstrap/icheck-bootstrap.min.css" />
     <!-- Theme style -->
-    <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="../dist/css/adminlte.min.css" />
     <!-- Google Font: Source Sans Pro -->
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet" />
     <script type="text/javascript" src="/eel.js"></script>
-
 </head>
 
 <body class="hold-transition login-page">
-    <div class="login-box">
-        <div class="login-logo">
-            <a href="javascript:void(0)"><b>MULTIPLE</b>
-                <hr>AUTHENTICATION SYSTEM</a>
-        </div>
-        <!-- /.login-logo -->
-        <div class="card">
-            <div class="card-body login-card-body">
-                <div id="entries" class="social-auth-links text-center mb-3">
-                </div>
-
+    <div id="response">
+        <div class="login-box">
+            <div class="login-logo">
+                <a href="javascript:void(0)"><b id="user">MULTIPLE</b>
+                    <hr />
+                    <span id="verification">AUTHENTICATION SYSTEM</span></a>
             </div>
-            <!-- /.login-card-body -->
+            <!-- /.login-logo -->
+            <div class="card-entries">
+                <div class="card-body login-card-body">
+                    <div id="entries" class="social-auth-links text-center mb-3"></div>
+                </div>
+                <!-- /.login-card-body -->
+            </div>
         </div>
+        <!-- /.login-box -->
     </div>
-    <!-- /.login-box -->
 
     <!-- jQuery -->
     <script src="../plugins/jquery/jquery.min.js"></script>
 
-
     <script type="text/javascript">
         async function recognition(entryId) {
             const user = await eel.recognition(entryId)();
-            console.log(user)
-
+            console.log(user);
         }
 
-        const BtnClass = (key) => {
+        const BtnClass = key => {
             switch (key % 6) {
                 case 0:
-                    return 'default'
+                    return "default";
                 case 1:
-                    return 'secondary'
+                    return "secondary";
                 case 2:
-                    return 'success'
+                    return "success";
                 case 3:
-                    return 'info'
+                    return "info";
                 case 4:
-                    return 'danger'
+                    return "danger";
                 case 5:
-                    return 'warning'
+                    return "warning";
                 case 6:
-                    return 'primary'
+                    return "primary";
             }
-        }
-
-
+        };
 
         async function getEntries() {
             const entries = await eel.getEntries()();
             $.each(entries, (key, data) => {
-                $('#entries').append(` <button onclick="recognition('` + data._id + `')" class="btn btn-block btn-` + BtnClass(key) + `">
-                        <i class="fas fa-door-open mr-1 fa-2x"></i> <span style="font-size: 1.8em;">` + data.entry + `</span>
-                    </button>`)
+                $("#entries").append(
+                    ` <button onclick="recognition('` +
+                    data._id +
+                    `')" class="btn btn-block btn-` +
+                    BtnClass(key) +
+                    `">
+                        <i class="fas fa-door-open mr-1 fa-2x"></i> <span style="font-size: 1.8em;">` +
+                    data.entry +
+                    `</span>
+                    </button>`
+                );
+            });
+        }
+
+        eel.expose(getAccessDenied);
+        function getAccessDenied() {
+            $('#response').html(`<div style="font-size:20px;" class="alert alert-danger alert-dismissible">
+                  <i class="icon fa fa-exclamation-triangle"></i> ACCESS DENIED!</div>`)
+
+        }
+
+        eel.expose(getUserResponse);
+        function getUserResponse(user, verification) {
+            $('#verification').empty()
+            $('#user').html(`Please Verify Your Identity`)
+            $('.card-entries').empty()
+            console.log(verification[0].length)
+
+            if (!verification[0].length)
+                $('#verification').append(`<div style="font-size:20px;" class="alert alert-success alert-dismissible">
+                  <i class="icon fas fa-check"></i> ACCESS GRANTED!</div>`)
+
+            $.each(verification[0], (index, value) => {
+                
+                if (value == 'face')
+                    $('#verification').append(`<div style="font-size:20px;" class="alert alert-danger alert-dismissible">
+                  <i class="icon fas fa-smile"></i> Please Verify Your Face!</div>`)
+                else if (value == 'finger')
+                    $('#verification').append(`<div style="font-size:20px;" class="alert alert-danger alert-dismissible">
+                  <i class="icon fas fa-fingerprint"></i> Please Verify Your Finger!</div>`)
+                else if (value == 'card')
+                    $('#verification').append(`<div style="font-size:20px;" class="alert alert-danger alert-dismissible">
+                  <i class="icon fas fa-id-card"></i> Please Verify Your Card!</div>`)
+
 
 
 
             })
+
+            $('#user').html(`Welcome<hr>${user.name} ${user.surname}`)
+
         }
 
         $(document).ready(() => {
-            getEntries()
-            getUser()
-        })
+            getEntries();
+            getUser();
+        });
     </script>
-
 </body>
 
 </html>

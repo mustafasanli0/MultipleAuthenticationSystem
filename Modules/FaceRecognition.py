@@ -10,6 +10,7 @@ class Recognition:
     def __init__(self):
         self.video_capture = cv2.VideoCapture(2)
         self.blinkDetectNum=10
+        self.running=True
 
     def eyeTrack(self):
 
@@ -45,10 +46,19 @@ class Recognition:
                 cv2.imshow('Video', frame)
                 print("Goz Kırpma: "+str(blinkCount))
 
+                if not self.running:
+                    # Release handle to the webcam
+                    self.video_capture.release()
+                    cv2.destroyAllWindows()
+                    return 0
+
                 if blinkCount>=self.blinkDetectNum:
                     return 1
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
+    def stop(self):
+        self.running = False
+        
     def getAllUsers(self):
         return  db.users.find({},{'_id':0})
     
@@ -83,7 +93,10 @@ class Recognition:
         ret, frame = self.video_capture.read()
         
         
-        while True:
+        while True: #default TRUE
+            
+            if not self.running:
+                return 0
             # Resize frame of video to 1/4 size for faster face recognition processing
             small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
 

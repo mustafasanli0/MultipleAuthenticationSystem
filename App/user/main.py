@@ -1,4 +1,4 @@
-import sys,os
+import sys,os,time
 prevPath = os.path.abspath(os.getcwd())
 sys.path.insert(0,prevPath)
 
@@ -8,7 +8,13 @@ from App.MongoDBConnection import db
 import eel
 from threading import Thread
 import serial
+
+def startArduinoRecognition():
+    serial.write('9'.encode())
+
 serial = serial.Serial('/dev/ttyACM0', 9600, timeout=.1)
+time.sleep(2)
+startArduinoRecognition()
 eel.init('Panel')
 
 def getVerificationOption(userId,entryId):
@@ -16,6 +22,7 @@ def getVerificationOption(userId,entryId):
     if(entryId in accessible):
         return accessible[entryId]
     else:
+        eel.getAccessDenied()
         return 'ACCESS_DENIED'
     
 
@@ -29,12 +36,13 @@ def getEntries():
 
 response = {}
 verification = ["FULL"]
-accessUserId = '0'
+accessUserId = '-1'
+recognitionClass = Recognition()
 def faceRecognition(entryId):
     global accessUserId
-    recognition = Recognition()
-    if(recognition.eyeTrack()):
-        userId = str(recognition.FaceRecognition())
+    global recognitionClass
+    if(recognitionClass.eyeTrack()):
+        userId = str(recognitionClass.FaceRecognition())
         response['face'] = userId
         
 
@@ -43,6 +51,8 @@ def faceRecognition(entryId):
             getVerification = getVerificationOption(userId, entryId)
             if(getVerification == "ACCESS_DENIED"):
                 print("ACCESS DENIED")
+                recognitionClass.stop()
+                eel.getAccessDenied()
                 return 'ACCESS_DENIED'
             verification.append(getVerification)
             accessUserId = userId
@@ -58,13 +68,16 @@ def faceRecognition(entryId):
                         pass
             else:
                 print("ACCESS DENIED")
+                recognitionClass.stop()
+                eel.getAccessDenied()
                 return 'ACCESS_DENIED'
 
             
         return list(db.users.find({'user_id' : userId },{'_id' : 0}))
-        
+
 def arduinoSerialRead(entryId):
     global accessUserId
+    global recognitionClass
     while  True:
         data = serial.readline().decode('UTF-8')
         if(data!=''):
@@ -78,6 +91,8 @@ def arduinoSerialRead(entryId):
                     getVerification = getVerificationOption(response['finger'], entryId)
                     if(getVerification == "ACCESS_DENIED"):
                         print("ACCESS DENIED")
+                        recognitionClass.stop()
+                        eel.getAccessDenied()
                         return 'ACCESS_DENIED'
                     verification.append(getVerification)
                     accessUserId = response['finger']
@@ -93,6 +108,8 @@ def arduinoSerialRead(entryId):
                             pass
                     else:
                         print("ACCESS DENIED")
+                        recognitionClass.stop()
+                        eel.getAccessDenied()
                         return 'ACCESS_DENIED'
             if('response-card' in data):
                 if('card' in response):
@@ -104,6 +121,8 @@ def arduinoSerialRead(entryId):
                     getVerification = getVerificationOption(response['card'], entryId)
                     if(getVerification == "ACCESS_DENIED"):
                         print("ACCESS DENIED")
+                        recognitionClass.stop()
+                        eel.getAccessDenied()
                         return 'ACCESS_DENIED'
                     verification.append(getVerification)
                     accessUserId = response['card']
@@ -119,27 +138,32 @@ def arduinoSerialRead(entryId):
                             pass
                     else:
                         print("ACCESS DENIED")
+                        recognitionClass.stop()
+                        eel.getAccessDenied()
                         return 'ACCESS_DENIED'
-        print(verification)
+        userResp, verificationResp = getUserAndVerification(accessUserId, verification)
+        eel.getUserResponse(userResp, verificationResp)
+
         if(verification==[[]]):
             print("ACCESS GRANTED!:",accessUserId)
+            recognitionClass.stop()
+            return 1
+            
+
+
+def getUserAndVerification(userId=-1,verification=0):
+    return db.users.find_one({'user_id' : userId },{'_id' : 0}), verification
 
 
 
-
-def startArduinoRecognition():
-    serial.write('9'.encode())
 
 
 @eel.expose
 def recognition(entryId):
-   
-    t=Thread(target = arduinoSerialRead, args = (entryId,))
-    t.start()
-    startArduinoRecognition()
-    faceRecognition(entryId)    
-
-
+    arduinoThread = Thread(target = arduinoSerialRead, args = (entryId,))
+    arduinoThread.start()
+    faceRecognition(entryId)
+    
 
 eel.start('user/login.html')
 
