@@ -55,12 +55,19 @@ def sendSerialData(userId):
 def splitAuthorization(form):
     data={}
     for key, value in form.items():
-        if value == 'on':
+        if value == 'on' or ':' in value:
             keyArr = key.split('-')
             if(len(keyArr) == 1):
                 data[key]=[]
+                data[keyArr[0]].append({'verification':[]})
             else:
-                data[keyArr[0]].append(keyArr[1])
+               
+                if(keyArr[1] == 'start'):
+                    data[keyArr[0]].append({'start':value})
+                elif(keyArr[1] == 'end'):
+                    data[keyArr[0]].append({'end':value})
+                else:
+                    data[keyArr[0]][0]['verification'].append(keyArr[1])
     return data
 
 @eel.expose

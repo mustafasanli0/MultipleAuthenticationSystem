@@ -8,6 +8,8 @@ from App.MongoDBConnection import db
 import eel
 from threading import Thread
 import serial
+import datetime
+ 
 
 def startArduinoRecognition():
     serial.write('9'.encode())
@@ -19,10 +21,21 @@ eel.init('Panel')
 
 def getVerificationOption(userId,entryId):
     accessible = db.users.find_one({'user_id' : userId },{'_id' : 0})['accessible']
+    
     if(entryId in accessible):
-        return accessible[entryId]
+        try:
+            start = accessible[entryId][1]['start']
+        except IndexError:
+            start = '00:00'
+
+        try:
+            end = accessible[entryId][2]['end']
+        except IndexError:
+            end = '23:59'
+
+        return accessible[entryId][0]['verification'], start, end
     else:
-        eel.getAccessDenied()
+        eel.getAccessDenied('Reason: Fake User')
         return 'ACCESS_DENIED'
     
 
@@ -39,6 +52,7 @@ verification = ["FULL"]
 accessUserId = '-1'
 recognitionClass = Recognition()
 def faceRecognition(entryId):
+    currentTime = datetime.datetime.now().strftime("%H:%M")
     global accessUserId
     global recognitionClass
     if(recognitionClass.eyeTrack()):
@@ -48,11 +62,16 @@ def faceRecognition(entryId):
 
         if('FULL' in verification):
             verification.remove('FULL')
-            getVerification = getVerificationOption(userId, entryId)
+            getVerification, startTime, endTime = getVerificationOption(userId, entryId)
+            if((startTime <= currentTime and endTime >= currentTime) == False):
+                recognitionClass.stop()
+                msg = '(ONLY ACCESS '+startTime +'-'+endTime+')'
+                eel.getAccessDenied(msg)
+                return 'ACCESS_DENIED'
             if(getVerification == "ACCESS_DENIED"):
                 print("ACCESS DENIED")
                 recognitionClass.stop()
-                eel.getAccessDenied()
+                eel.getAccessDenied('Reason: Fake User')
                 return 'ACCESS_DENIED'
             verification.append(getVerification)
             accessUserId = userId
@@ -69,13 +88,14 @@ def faceRecognition(entryId):
             else:
                 print("ACCESS DENIED")
                 recognitionClass.stop()
-                eel.getAccessDenied()
+                eel.getAccessDenied('Reason: Fake User')
                 return 'ACCESS_DENIED'
 
             
         return list(db.users.find({'user_id' : userId },{'_id' : 0}))
 
 def arduinoSerialRead(entryId):
+    currentTime = datetime.datetime.now().strftime("%H:%M")
     global accessUserId
     global recognitionClass
     while  True:
@@ -88,11 +108,16 @@ def arduinoSerialRead(entryId):
 
                 if('FULL' in verification):
                     verification.remove('FULL')
-                    getVerification = getVerificationOption(response['finger'], entryId)
+                    getVerification, startTime, endTime = getVerificationOption(response['finger'], entryId)
+                    if((startTime <= currentTime and endTime >= currentTime) == False):
+                        recognitionClass.stop()
+                        msg = '(ONLY ACCESS '+startTime +'-'+endTime+')'
+                        eel.getAccessDenied(msg)
+                        return 'ACCESS_DENIED'
                     if(getVerification == "ACCESS_DENIED"):
                         print("ACCESS DENIED")
                         recognitionClass.stop()
-                        eel.getAccessDenied()
+                        eel.getAccessDenied('Reason: Fake User')
                         return 'ACCESS_DENIED'
                     verification.append(getVerification)
                     accessUserId = response['finger']
@@ -109,7 +134,7 @@ def arduinoSerialRead(entryId):
                     else:
                         print("ACCESS DENIED")
                         recognitionClass.stop()
-                        eel.getAccessDenied()
+                        eel.getAccessDenied('Reason: Fake User')
                         return 'ACCESS_DENIED'
             if('response-card' in data):
                 if('card' in response):
@@ -118,11 +143,16 @@ def arduinoSerialRead(entryId):
 
                 if('FULL' in verification):
                     verification.remove('FULL')
-                    getVerification = getVerificationOption(response['card'], entryId)
+                    getVerification, startTime, endTime = getVerificationOption(response['card'], entryId)
+                    if((startTime <= currentTime and endTime >= currentTime) == False):
+                        recognitionClass.stop()
+                        msg = '(ONLY ACCESS '+startTime +'-'+endTime+')'
+                        eel.getAccessDenied(msg)
+                        return 'ACCESS_DENIED'
                     if(getVerification == "ACCESS_DENIED"):
                         print("ACCESS DENIED")
                         recognitionClass.stop()
-                        eel.getAccessDenied()
+                        eel.getAccessDenied('Reason: Fake User')
                         return 'ACCESS_DENIED'
                     verification.append(getVerification)
                     accessUserId = response['card']
@@ -139,7 +169,7 @@ def arduinoSerialRead(entryId):
                     else:
                         print("ACCESS DENIED")
                         recognitionClass.stop()
-                        eel.getAccessDenied()
+                        eel.getAccessDenied('Reason: Fake User')
                         return 'ACCESS_DENIED'
         userResp, verificationResp = getUserAndVerification(accessUserId, verification)
         eel.getUserResponse(userResp, verificationResp)

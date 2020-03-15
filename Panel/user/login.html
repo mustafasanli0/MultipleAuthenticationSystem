@@ -84,9 +84,9 @@
         }
 
         eel.expose(getAccessDenied);
-        function getAccessDenied() {
+        function getAccessDenied(msg='') {
             $('#response').html(`<div style="font-size:20px;" class="alert alert-danger alert-dismissible">
-                  <i class="icon fa fa-exclamation-triangle"></i> ACCESS DENIED!</div>`)
+                  <i class="icon fa fa-exclamation-triangle"></i> ACCESS DENIED! <br>${msg}</div>`)
 
         }
 

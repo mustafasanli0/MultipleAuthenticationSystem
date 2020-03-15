@@ -306,11 +306,28 @@
                                         <input name="` + data._id + `-finger" type="checkbox" id="d` + data._id + `">
                                         <label for="d` + data._id + `" style="margin-right: 5px;">Finger</label>
                                     </div>
+                                    <div class="" style="float: left;">
+                                        <input name="` + data._id + `-start" style="width:100px;" class="form-control single-input" value="" placeholder="Start Time">
+                                    </div>
+                                    <div class="" style="float: right;">
+                                        <input name="` + data._id + `-end" style="width:100px;" class="form-control single-input" value="" placeholder="End Time">
+                                    </div>
+                                            
 
 
                                 </div>
                             </div>
-                        </div>`)
+                        </div>
+                        <script>
+    var input = $('.single-input').clockpicker({
+        placement: 'bottom',
+        align: 'left',
+        autoclose: true,
+        'default': 'now'
+    });
+<\/script>
+                        
+                        `)
 
                     })
                 }

@@ -17,9 +17,12 @@
     <link rel="stylesheet" href="../plugins/pace-progress/themes/black/pace-theme-flat-top.css">
     <!-- adminlte-->
     <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.css">
+
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <script type="text/javascript" src="/eel.js"></script>
+
 
 </head>
 
@@ -56,7 +59,8 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="../index3.html" class="brand-link">
-                <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                    style="opacity: .8">
                 <span class="brand-text font-weight-light admin_panel">ACCESS DENIED</span>
             </a>
 
@@ -72,7 +76,8 @@
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                        data-accordion="false">
                         <li class="nav-item">
                             <a href="javascript:void(0)" class="nav-link">
                                 <i class="nav-icon fa fa-user"></i>
@@ -80,6 +85,7 @@
                                     Users
                                     <span class="right badge badge-danger">New</span>
                                 </p>
+
                             </a>
                         </li>
                         <li class="nav-item">
@@ -126,8 +132,8 @@
             </div>
             <!-- /.sidebar -->
         </aside>
-        <div id="content"></div>
 
+        <div id="content"></div>
 
 
 
@@ -155,12 +161,15 @@
     <!-- AdminLTE for demo purposes -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/jquery.validate.js"></script>
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/clockpicker/0.0.7/bootstrap-clockpicker.min.js"></script>
 
 
 
 </body>
+
 <script type="text/javascript">
-    const jwtDecode = async() => {
+    const jwtDecode = async () => {
         if (document.cookie) {
             const data = await eel.jwtDecode(document.cookie)();
             console.log(data)
