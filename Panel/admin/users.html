@@ -1,0 +1,73 @@
+<div class="content-wrapper">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Users</h3>
+
+          <div class="card-tools">
+            <div class="input-group input-group-sm" style="width: 150px;">
+              <input type="text" name="table_search" class="form-control float-right" placeholder="Search" />
+
+              <div class="input-group-append">
+                <button type="submit" class="btn btn-default">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.card-header -->
+        <div class="card-body table-responsive p-0" style="height: 300px;">
+          <table class="table table-head-fixed text-nowrap">
+            <thead>
+              <tr>
+                <th>UserName</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Phone</th>
+                <th>Photo</th>
+                <th>Update</th>
+              </tr>
+            </thead>
+            <tbody id="users_tbody">
+
+
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+  </div>
+</div>
+
+<link rel="stylesheet" href="../dist/css/user-register.css" />
+<link rel="stylesheet" href="../plugins/icheck-bootstrap/icheck-bootstrap.min.css" />
+
+<script type="text/javascript">
+  (async () => {
+    const users = await eel.getUsers()()
+
+    $.each(users, (key, user) => {
+      console.log(user)
+
+      $('#users_tbody')
+        .append(
+          `<tr class="users"><td><input value="${user.username}"</td>
+          <td><input value="${user.name}"></td>
+          <td><input value="${user.surname}"</td>
+          <td><input value="${user.phone}"</td>
+          <td><img style="width:100px;height:100px;" src="../user/images/${user.photo}"></td>
+          <td><button class="btn btn-success">Update</button></td>
+          </tr>
+        `)
+    })
+  })()
+
+
+</script>
+<style>
+  
+</style>

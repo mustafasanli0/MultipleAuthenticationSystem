@@ -58,7 +58,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="../index3.html" class="brand-link">
+            <a onclick="home()" href="javascript:void(0)" class="brand-link">
                 <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
                     style="opacity: .8">
                 <span class="brand-text font-weight-light admin_panel">ACCESS DENIED</span>
@@ -79,7 +79,7 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                         data-accordion="false">
                         <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link">
+                            <a onclick="usersPage()" href="javascript:void(0)" class="nav-link">
                                 <i class="nav-icon fa fa-user"></i>
                                 <p>
                                     Users
@@ -89,7 +89,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link">
+                            <a onclick="entriesPage()" href="javascript:void(0)" class="nav-link">
                                 <i class="nav-icon fa fa-lock"></i>
                                 <p>
                                     Entries
@@ -106,15 +106,7 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="javascript:void(0)" class="nav-link">
-                                <i class="nav-icon fa fa-cog"></i>
-                                <p>
-                                    Settings
-                                    <span class="right badge badge-danger">New</span>
-                                </p>
-                            </a>
-                        </li>
+
                         <li class="nav-item">
                             <a href="javascript:void(0)" class="nav-link">
                                 <i class="nav-icon fa fa-sign-out-alt"></i>
@@ -182,11 +174,26 @@
             $('body').remove();
     }
 
+
     $(document).ready(() => {
-        jwtDecode()
-        $('#content').load('add-user.html')
+        home()
 
     })
+    const home = () => {
+        jwtDecode()
+        $('#content').load('add-user.html')
+    }
+
+    const usersPage = () => {
+        jwtDecode()
+        $('#content').load('users.html')
+
+    }
+    const entriesPage = () => {
+        jwtDecode()
+        $('#content').load('entries.html')
+
+    }
 </script>
 <style>
     body {

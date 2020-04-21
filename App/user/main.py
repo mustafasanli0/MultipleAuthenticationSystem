@@ -29,7 +29,7 @@ def getVerificationOption(userId,entryId):
             start = '00:00'
 
         try:
-            end = accessible[entryId][2]['end']
+            end = accessible[entryId][2]['end'] == '00:00' and '23:59' or  accessible[entryId][2]['end']
         except IndexError:
             end = '23:59'
 
