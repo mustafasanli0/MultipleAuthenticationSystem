@@ -10,7 +10,7 @@ import serial
 from threading import Thread
 import eel
 eel.init('Panel')
-#serial = serial.Serial('/dev/ttyACM0', 9600, timeout=.1)
+serial = serial.Serial('/dev/ttyACM0', 9600, timeout=.1)
 
 
 @eel.expose
@@ -24,6 +24,13 @@ def getEntries():
 def getUsers():
     users = db.users.find({'user_id':{'$ne': '0'}},{'_id' : 0})
     return list(users)
+    
+@eel.expose
+def getRoles():
+    roles = db.roles.aggregate([
+    {"$project": {"_id": { "$toString": "$_id" }, 'role':1, 'accessible':1 } }
+    ])
+    return list(roles)
 
 
 @eel.expose
